@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painèe Bakehouse</title>
+    <link rel="icon" type="image/jpeg" href="file/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -102,16 +103,7 @@
         color: var(--maroon-light);
       }
       .nav-logo::before {
-        content: "✦";
-        font-size: 0.9rem;
-        color: var(--cream-deep);
-        background: var(--maroon);
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        display: none;
       }
 
       .nav-links {
@@ -1174,7 +1166,22 @@
   <body>
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
-      <a href="#home" class="nav-logo">Painèe <span>Bakehouse</span></a>
+      <a href="#home" class="nav-logo">
+        <img
+          src="file/logo.jpg"
+          alt="Logo"
+          style="
+            height: 54px;
+            width: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            flex-shrink: 0;
+            border: 2px solid var(--maroon);
+          "
+        />
+        Painèe <span>Bakehouse</span>
+      </a>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -1201,7 +1208,6 @@
         <div class="hero-content">
           <div class="hero-label">Homemade Bakehouse</div>
           <h1 class="hero-title">
-            Delicious<br />
             <em>Homemade</em><br />
             Bakehouse
           </h1>
