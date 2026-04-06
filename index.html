@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painèe Bakehouse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      :root {
+        --maroon: #7b0000;
+        --maroon-dark: #560000;
+        --maroon-light: #a83232;
+        --cream: #fff5e1;
+        --cream-dark: #f5e6c8;
+        --cream-deep: #edd9a3;
+        --warm-white: #fffaf3;
+        --text-dark: #2a1a1a;
+        --text-mid: #5a3a3a;
+        --text-light: #9a7a7a;
+        --shadow-soft: 0 8px 40px rgba(123, 0, 0, 0.1);
+        --shadow-card: 0 4px 24px rgba(123, 0, 0, 0.08);
+        --shadow-hover: 0 16px 48px rgba(123, 0, 0, 0.18);
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 28px;
+        --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: "Jost", sans-serif;
+        background: var(--cream);
+        color: var(--text-dark);
+        overflow-x: hidden;
+      }
+
+      /* ===== SCROLLBAR ===== */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream-dark);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--maroon);
+        border-radius: 10px;
+      }
+
+      /* ===== NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5%;
+        height: 72px;
+        background: rgba(255, 245, 225, 0.88);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(123, 0, 0, 0.08);
+        transition: box-shadow var(--transition);
+      }
+      .navbar.scrolled {
+        box-shadow: 0 4px 32px rgba(123, 0, 0, 0.12);
+      }
+
+      .nav-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--maroon);
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-logo span {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--maroon-light);
+      }
+      .nav-logo::before {
+        content: "✦";
+        font-size: 0.9rem;
+        color: var(--cream-deep);
+        background: var(--maroon);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-mid);
+        text-decoration: none;
+        position: relative;
+        transition: color var(--transition);
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: var(--maroon);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform var(--transition);
+      }
+      .nav-links a:hover {
+        color: var(--maroon);
+      }
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      .nav-cta {
+        background: var(--maroon);
+        color: var(--cream) !important;
+        padding: 9px 22px !important;
+        border-radius: 50px;
+        font-weight: 500 !important;
+        transition: background var(--transition), transform var(--transition),
+          box-shadow var(--transition) !important;
+      }
+      .nav-cta:hover {
+        background: var(--maroon-dark) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(123, 0, 0, 0.3);
+        color: var(--cream) !important;
+      }
+      .nav-cta::after {
+        display: none !important;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        border: none;
+        background: none;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--maroon);
+        border-radius: 2px;
+        transition: var(--transition);
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* ===== HERO ===== */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        background: var(--warm-white);
+        padding-top: 72px;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            ellipse 60% 70% at 70% 50%,
+            rgba(123, 0, 0, 0.06) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 20% 80%,
+            rgba(237, 217, 163, 0.5) 0%,
+            transparent 60%
+          );
+      }
+
+      .hero-ornament {
+        position: absolute;
+        right: -120px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 640px;
+        height: 640px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--cream-dark) 0%,
+          var(--cream-deep) 100%
+        );
+        box-shadow: inset -20px -20px 60px rgba(123, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      .hero-ornament img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        mix-blend-mode: multiply;
+        opacity: 0.9;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 5%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 60px;
+        width: 100%;
+      }
+
+      .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--maroon);
+        margin-bottom: 20px;
+      }
+      .hero-label::before,
+      .hero-label::after {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--maroon);
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.8rem, 5vw, 4.2rem);
+        font-weight: 300;
+        line-height: 1.15;
+        color: var(--text-dark);
+        margin-bottom: 20px;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--maroon);
+        font-weight: 400;
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: var(--text-mid);
+        max-width: 400px;
+        margin-bottom: 40px;
+      }
+
+      .hero-btns {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--maroon);
+        color: var(--cream);
+        font-family: "Jost", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        border: 2px solid var(--maroon);
+        transition: all var(--transition);
+        cursor: pointer;
+      }
+      .btn-primary:hover {
+        background: transparent;
+        color: var(--maroon);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(123, 0, 0, 0.22);
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: var(--maroon);
+        font-family: "Jost", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        border: 2px solid var(--cream-deep);
+        transition: all var(--transition);
+      }
+      .btn-secondary:hover {
+        border-color: var(--maroon);
+        transform: translateY(-2px);
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 36px;
+        margin-top: 52px;
+      }
+      .hero-stat {
+        text-align: left;
+      }
+      .hero-stat strong {
+        display: block;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--maroon);
+        line-height: 1;
+      }
+      .hero-stat small {
+        font-size: 0.72rem;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-light);
+      }
+
+      .hero-image-col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .hero-img-wrap {
+        width: 480px;
+        height: 480px;
+        border-radius: 40% 60% 55% 45% / 45% 55% 60% 40%;
+        overflow: hidden;
+        box-shadow: var(--shadow-hover);
+        position: relative;
+        animation: morphBlob 8s ease-in-out infinite;
+        background: var(--cream-dark);
+      }
+      @keyframes morphBlob {
+        0%,
+        100% {
+          border-radius: 40% 60% 55% 45% / 45% 55% 60% 40%;
+        }
+        33% {
+          border-radius: 55% 45% 40% 60% / 60% 40% 55% 45%;
+        }
+        66% {
+          border-radius: 45% 55% 60% 40% / 40% 60% 45% 55%;
+        }
+      }
+      .hero-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-badge {
+        position: absolute;
+        bottom: 30px;
+        left: -20px;
+        background: var(--maroon);
+        color: var(--cream);
+        padding: 14px 20px;
+        border-radius: var(--radius-md);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.95rem;
+        box-shadow: 0 8px 24px rgba(123, 0, 0, 0.3);
+        line-height: 1.3;
+        animation: floatBadge 3s ease-in-out infinite;
+      }
+      .hero-badge strong {
+        display: block;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      @keyframes floatBadge {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      /* ===== SECTION COMMONS ===== */
+      section {
+        padding: 100px 5%;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--maroon);
+        margin-bottom: 14px;
+      }
+      .section-label::before,
+      .section-label::after {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 1px;
+        background: var(--maroon);
+      }
+      .section-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2rem, 3.5vw, 2.8rem);
+        font-weight: 400;
+        line-height: 1.2;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+      }
+      .section-title em {
+        font-style: italic;
+        color: var(--maroon);
+      }
+      .section-sub {
+        font-size: 0.95rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: var(--text-mid);
+        max-width: 540px;
+      }
+      .section-header {
+        margin-bottom: 56px;
+      }
+
+      /* ===== MARQUEE STRIP ===== */
+      .marquee-strip {
+        background: var(--maroon);
+        overflow: hidden;
+        padding: 14px 0;
+        display: flex;
+        gap: 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 0;
+        animation: marqueeScroll 20s linear infinite;
+        white-space: nowrap;
+      }
+      .marquee-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 245, 225, 0.85);
+        padding: 0 32px;
+      }
+      .marquee-item span {
+        color: var(--cream-deep);
+        font-size: 1rem;
+      }
+      @keyframes marqueeScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ===== MENU SECTION ===== */
+      #menu {
+        background: var(--warm-white);
+      }
+
+      .filter-tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 48px;
+      }
+      .filter-btn {
+        font-family: "Jost", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 9px 24px;
+        border-radius: 50px;
+        border: 1.5px solid var(--cream-deep);
+        background: transparent;
+        color: var(--text-mid);
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--maroon);
+        border-color: var(--maroon);
+        color: var(--cream);
+        box-shadow: 0 4px 16px rgba(123, 0, 0, 0.2);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 28px;
+      }
+
+      .product-card {
+        background: var(--cream);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+        transition: all var(--transition);
+        cursor: pointer;
+        position: relative;
+      }
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-hover);
+      }
+      .product-card[data-hidden="true"] {
+        display: none;
+      }
+
+      .card-img {
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+        background: var(--cream-dark);
+      }
+      .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .product-card:hover .card-img img {
+        transform: scale(1.08);
+      }
+
+      .card-badge-cat {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: rgba(255, 245, 225, 0.92);
+        backdrop-filter: blur(8px);
+        color: var(--maroon);
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 50px;
+      }
+
+      .card-body {
+        padding: 24px 26px 26px;
+      }
+      .card-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.35rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .card-desc {
+        font-size: 0.85rem;
+        font-weight: 300;
+        line-height: 1.6;
+        color: var(--text-mid);
+        margin-bottom: 20px;
+      }
+      .card-footer-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-price {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--maroon);
+      }
+      .card-price small {
+        font-family: "Jost", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: var(--text-light);
+        display: block;
+        line-height: 1;
+      }
+      .card-order-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--maroon);
+        color: var(--cream);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: all var(--transition);
+      }
+      .card-order-btn:hover {
+        background: var(--maroon-dark);
+        transform: scale(1.1);
+      }
+
+      /* ===== ABOUT SECTION ===== */
+      #about {
+        background: var(--cream);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        padding: 100px 5%;
+      }
+
+      .about-img-wrap {
+        position: relative;
+      }
+      .about-img-main {
+        width: 100%;
+        height: 500px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        background: var(--cream-dark);
+      }
+      .about-img-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .about-img-accent {
+        position: absolute;
+        bottom: -28px;
+        right: -28px;
+        width: 180px;
+        height: 180px;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        box-shadow: var(--shadow-hover);
+        border: 6px solid var(--cream);
+        background: var(--cream-dark);
+      }
+      .about-img-accent img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .about-ornament-text {
+        position: absolute;
+        top: -18px;
+        left: -18px;
+        background: var(--maroon);
+        color: var(--cream);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.8rem;
+        font-style: italic;
+        padding: 10px 18px;
+        border-radius: var(--radius-sm);
+      }
+
+      .about-text {
+      }
+      .about-quote {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.4rem;
+        font-style: italic;
+        color: var(--maroon);
+        line-height: 1.6;
+        border-left: 3px solid var(--maroon);
+        padding-left: 20px;
+        margin: 28px 0;
+      }
+      .about-body {
+        font-size: 0.92rem;
+        font-weight: 300;
+        line-height: 1.85;
+        color: var(--text-mid);
+        margin-bottom: 20px;
+      }
+
+      .about-pillars {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 32px;
+      }
+      .pillar {
+        background: var(--warm-white);
+        border-radius: var(--radius-md);
+        padding: 18px 20px;
+        border: 1px solid rgba(123, 0, 0, 0.06);
+      }
+      .pillar-icon {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .pillar-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+      }
+      .pillar-desc {
+        font-size: 0.78rem;
+        font-weight: 300;
+        color: var(--text-light);
+      }
+
+      /* ===== CONTACT SECTION ===== */
+      #contact {
+        background: var(--warm-white);
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
+
+      .contact-info {
+      }
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 28px;
+      }
+      .contact-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border-radius: var(--radius-md);
+        background: rgba(123, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--maroon);
+      }
+      .contact-item-text strong {
+        display: block;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 2px;
+      }
+      .contact-item-text span,
+      .contact-item-text a:not(.contact-link-btn) {
+        font-size: 0.88rem;
+        font-weight: 300;
+        color: var(--text-mid);
+        line-height: 1.5;
+        text-decoration: none;
+      }
+      .contact-item-text a:not(.contact-link-btn):hover {
+        color: var(--maroon);
+      }
+
+      .contact-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+        background: var(--maroon);
+        color: var(--cream);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 10px 22px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all var(--transition);
+      }
+      .contact-link-btn:hover {
+        background: var(--maroon-dark);
+        transform: translateX(4px);
+      }
+
+      .contact-map-box {
+        background: var(--cream);
+        border-radius: var(--radius-lg);
+        padding: 36px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid rgba(123, 0, 0, 0.06);
+      }
+      .contact-map-box h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .contact-map-box p {
+        font-size: 0.85rem;
+        font-weight: 300;
+        color: var(--text-mid);
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+      .map-placeholder {
+        width: 100%;
+        height: 220px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+          135deg,
+          var(--cream-dark) 0%,
+          var(--cream-deep) 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-style: italic;
+        color: var(--text-light);
+        border: 2px dashed rgba(123, 0, 0, 0.15);
+        margin-bottom: 20px;
+      }
+      .map-placeholder span {
+        font-size: 2.5rem;
+      }
+
+      .hours-list {
+        display: grid;
+        gap: 6px;
+      }
+      .hours-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        font-weight: 300;
+        color: var(--text-mid);
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(123, 0, 0, 0.06);
+      }
+      .hours-row:last-child {
+        border-bottom: none;
+      }
+      .hours-row strong {
+        font-weight: 500;
+        color: var(--text-dark);
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: var(--maroon-dark);
+        color: rgba(255, 245, 225, 0.7);
+        padding: 60px 5% 30px;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 48px;
+      }
+      .footer-brand {
+      }
+      .footer-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: var(--cream);
+        display: block;
+        margin-bottom: 12px;
+      }
+      .footer-logo span {
+        font-style: italic;
+        font-weight: 300;
+        opacity: 0.7;
+      }
+      .footer-tagline {
+        font-size: 0.82rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(255, 245, 225, 0.6);
+        max-width: 240px;
+        margin-bottom: 24px;
+      }
+      .social-links {
+        display: flex;
+        gap: 10px;
+      }
+      .social-link {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 245, 225, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 245, 225, 0.8);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all var(--transition);
+      }
+      .social-link:hover {
+        background: rgba(255, 245, 225, 0.22);
+        color: var(--cream);
+        transform: translateY(-3px);
+      }
+
+      .footer-col h4 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--cream);
+        margin-bottom: 18px;
+        letter-spacing: 0.04em;
+      }
+      .footer-links {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+      .footer-links a {
+        font-size: 0.82rem;
+        font-weight: 300;
+        color: rgba(255, 245, 225, 0.55);
+        text-decoration: none;
+        transition: color var(--transition);
+      }
+      .footer-links a:hover {
+        color: var(--cream);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 245, 225, 0.1);
+        padding-top: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .footer-bottom p {
+        font-size: 0.76rem;
+        font-weight: 300;
+        color: rgba(255, 245, 225, 0.4);
+      }
+      .footer-bottom a {
+        color: rgba(255, 245, 225, 0.6);
+        text-decoration: none;
+      }
+
+      /* ===== SCROLL-REVEAL ===== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.2s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.3s;
+      }
+      .reveal-delay-4 {
+        transition-delay: 0.4s;
+      }
+      .reveal-delay-5 {
+        transition-delay: 0.5s;
+      }
+
+      /* ===== MOBILE NAV ===== */
+      @media (max-width: 768px) {
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 72px;
+          left: 0;
+          right: 0;
+          background: rgba(255, 245, 225, 0.97);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          gap: 0;
+          border-bottom: 1px solid rgba(123, 0, 0, 0.1);
+          padding: 12px 0;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .nav-links li {
+          width: 100%;
+        }
+        .nav-links a {
+          display: block;
+          padding: 14px 5%;
+          font-size: 0.9rem;
+        }
+        .nav-links a::after {
+          display: none;
+        }
+        .nav-cta {
+          margin: 8px 5%;
+          border-radius: var(--radius-sm);
+          padding: 14px 5% !important;
+        }
+
+        .hero-inner {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 40px;
+        }
+        .hero-image-col {
+          order: -1;
+        }
+        .hero-img-wrap {
+          width: 300px;
+          height: 300px;
+        }
+        .hero-sub {
+          margin: 0 auto 40px;
+        }
+        .hero-btns {
+          justify-content: center;
+        }
+        .hero-stats {
+          justify-content: center;
+        }
+        .hero-badge {
+          left: 10px;
+          bottom: -10px;
+        }
+
+        #about {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+        .about-img-accent {
+          right: -10px;
+          bottom: -10px;
+        }
+
+        .contact-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .footer-top {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-pillars {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-img-wrap {
+          width: 260px;
+          height: 260px;
+        }
+        .hero-stats {
+          gap: 20px;
+        }
+      }
+
+      /* ===== TOAST ===== */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 9999;
+        background: var(--maroon);
+        color: var(--cream);
+        padding: 14px 22px;
+        border-radius: var(--radius-md);
+        font-size: 0.85rem;
+        box-shadow: 0 8px 32px rgba(123, 0, 0, 0.3);
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+      <a href="#home" class="nav-logo">Painèe <span>Bakehouse</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <a href="https://wa.me/6281234567890" target="_blank" class="nav-cta"
+            >Order Now</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="home" class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-label">Homemade Bakehouse</div>
+          <h1 class="hero-title">
+            Delicious<br />
+            <em>Homemade</em><br />
+            Bakehouse
+          </h1>
+          <p class="hero-sub">
+            Setiap gigitan adalah momen — dibuat dengan cinta, bahan segar
+            pilihan, dan resep yang telah disempurnakan.
+          </p>
+          <div class="hero-btns">
+            <a href="#menu" class="btn-primary">Lihat Menu ↓</a>
+            <a
+              href="https://wa.me/6281234567890"
+              target="_blank"
+              class="btn-secondary"
+              >Order via WA</a
+            >
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>2</strong>
+              <small>Varian Menu</small>
+            </div>
+            <div class="hero-stat">
+              <strong>50+</strong>
+              <small>Happy Customers</small>
+            </div>
+            <div class="hero-stat">
+              <strong>100%</strong>
+              <small>Homemade</small>
+            </div>
+          </div>
+        </div>
+        <div class="hero-image-col">
+          <div class="hero-img-wrap">
+            <img src="file\Tiramisu.jpg" alt="Painèe Bakehouse Hero" />
+          </div>
+          <div class="hero-badge">
+            <small>Best Seller</small>
+            <strong>Classic NY</strong>
+            Bakehouse
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MARQUEE STRIP ===== -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <div class="marquee-item"><span>✦</span> Homemade with Love</div>
+        <div class="marquee-item"><span>✦</span> Fresh Every Day</div>
+        <div class="marquee-item"><span>✦</span> Premium Ingredients</div>
+        <div class="marquee-item"><span>✦</span> Ready to Order</div>
+        <div class="marquee-item"><span>✦</span> Custom Orders Available</div>
+        <div class="marquee-item">
+          <span>✦</span> Free Delivery Area Jabodetabek
+        </div>
+        <div class="marquee-item"><span>✦</span> Homemade with Love</div>
+        <div class="marquee-item"><span>✦</span> Fresh Every Day</div>
+        <div class="marquee-item"><span>✦</span> Premium Ingredients</div>
+        <div class="marquee-item"><span>✦</span> Ready to Order</div>
+        <div class="marquee-item"><span>✦</span> Custom Orders Available</div>
+        <div class="marquee-item">
+          <span>✦</span> Free Delivery Area Jabodetabek
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MENU ===== -->
+    <section id="menu">
+      <div class="section-header">
+        <div class="section-label reveal">Our Menu</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Temukan Rasa <em>Favoritmu</em>
+        </h2>
+        <p class="section-sub reveal reveal-delay-2">
+          Setiap Bakehouse kami dibuat segar setiap hari — tanpa pengawet, tanpa
+          kompromi.
+        </p>
+      </div>
+
+      <div class="filter-tabs reveal reveal-delay-3">
+        <button class="filter-btn active" data-filter="all">Semua</button>
+        <button class="filter-btn" data-filter="cake">Cake</button>
+        <button class="filter-btn" data-filter="pastry">Pastry</button>
+        <!-- <button class="filter-btn" data-filter="fruit">Fruit</button> -->
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Product 1 -->
+        <div class="product-card reveal" data-category="cake">
+          <div class="card-img">
+            <img src="file\Tiramisu.jpg" alt="Tiramisu Cake" loading="lazy" />
+            <div class="card-badge-cat">Cake</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-name">Tiramisu Cake</h3>
+            <p class="card-desc">
+              Tiramisu cake lembut dengan lapisan sponge yang direndam espresso,
+              dipadukan dengan krim mascarpone yang halus dan kaya rasa. Setiap
+              gigitan menghadirkan perpaduan sempurna antara pahit kopi dan
+              manis yang lembut, menciptakan sensasi klasik Italia yang mewah.
+            </p>
+            <div class="card-footer-row">
+              <div class="card-price">
+                <small>Start from</small>
+                Rp 25.000
+              </div>
+              <button
+                class="card-order-btn"
+                data-product="Tiramisu Cake"
+                onclick="orderProduct(this)"
+              >
+                ↗
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card reveal reveal-delay-1" data-category="pastry">
+          <div class="card-img">
+            <img src="file\currypup.jpg" alt="Curry Pup" loading="lazy" />
+            <div class="card-badge-cat">Curry Pup</div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-name">Curry Pup</h3>
+            <p class="card-desc">
+              Nikmati sensasi gurih dan hangat dari Curry Pup, cemilan berbentuk
+              lucu yang meledak dengan cita rasa kari autentik. Setiap gigitan
+              menghadirkan kombinasi sempurna antara rempah pilihan yang kaya
+              rasa dan tekstur yang renyah di luar namun lembut di dalam. Cocok
+              dinikmati kapan saja, baik untuk teman santai sore atau camilan
+              seru saat bersantai bersama keluarga dan teman.
+            </p>
+            <div class="card-footer-row">
+              <div class="card-price">
+                <small>Start from</small>
+                Rp 5.000
+              </div>
+              <button
+                class="card-order-btn"
+                data-product="Curry Pup"
+                onclick="orderProduct(this)"
+              >
+                ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+      <div class="about-img-wrap reveal">
+        <div class="about-img-main">
+          <img src="file\Tiramisu.jpg" alt="Painèe Bakery Kitchen" />
+        </div>
+        <div class="about-img-accent">
+          <img src="file\currypup.jpg" alt="Fresh Ingredients" />
+        </div>
+        <div class="about-ornament-text">Est. 2020 · Jakarta</div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-label reveal">Our Story</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Dibuat dari <em>Hati,</em><br />Disajikan dengan Cinta
+        </h2>
+        <blockquote class="about-quote reveal reveal-delay-2">
+          "Setiap slice adalah janji — bahwa tidak ada yang lebih baik dari
+          sesuatu yang dibuat dengan tangan."
+        </blockquote>
+        <p class="about-body reveal reveal-delay-2">
+          Painèe Bakehouse lahir dari dapur kecil penuh cinta di Jakarta tahun
+          2020. Berawal dari hobi dan keinginan untuk berbagi kebahagiaan lewat
+          dessert, kami tumbuh menjadi brand yang dipercaya ratusan keluarga.
+        </p>
+        <p class="about-body reveal reveal-delay-3">
+          Kami percaya bahwa Bakehouse yang luar biasa dimulai dari bahan yang
+          jujur. Tanpa pengawet, tanpa shortcut. Hanya rasa asli yang membuat
+          kamu ingin kembali lagi.
+        </p>
+        <div class="about-pillars">
+          <div class="pillar reveal reveal-delay-2">
+            <span class="pillar-icon">🧀</span>
+            <div class="pillar-title">Premium</div>
+            <div class="pillar-desc">
+              Hanya cream cheese grade terbaik untuk tekstur yang sempurna
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-3">
+            <span class="pillar-icon">🌿</span>
+            <div class="pillar-title">Fresh Ingredients</div>
+            <div class="pillar-desc">
+              Bahan segar didatangkan setiap hari, no preservatives
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-4">
+            <span class="pillar-icon">🤍</span>
+            <div class="pillar-title">Made with Love</div>
+            <div class="pillar-desc">
+              Setiap kue dikerjakan secara manual oleh tangan terampil kami
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-5">
+            <span class="pillar-icon">📦</span>
+            <div class="pillar-title">Safe Packaging</div>
+            <div class="pillar-desc">
+              Dikemas aman untuk menjaga kualitas hingga ke tanganmu
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+      <div class="section-header">
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Siap Order? <em>Hubungi Kami</em>
+        </h2>
+        <p class="section-sub reveal reveal-delay-2">
+          Pesan langsung via WhatsApp atau follow kami di Instagram untuk update
+          terbaru!
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item reveal">
+            <div class="contact-icon">
+              <img
+                src="https://cdn.simpleicons.org/whatsapp/7B0000"
+                width="22"
+                height="22"
+              />
+            </div>
+            <div class="contact-item-text">
+              <strong>WhatsApp Order</strong>
+              <span
+                >Dini : +62 813 1423 9100<br />
+                Nisa : +62 821 1299 0233</span
+              >
+            </div>
+          </div>
+
+          <div class="contact-item reveal reveal-delay-1">
+            <div class="contact-icon">
+              <img
+                src="https://cdn.simpleicons.org/instagram/7B0000"
+                width="22"
+                height="22"
+              />
+            </div>
+            <div class="contact-item-text">
+              <strong>Instagram</strong>
+              <span
+                >@painee.cheesecake<br />Lihat galeri dan promo terbaru
+                kami</span
+              >
+              <a
+                href="https://instagram.com/painee.cheesecake"
+                target="_blank"
+                class="contact-link-btn"
+                style="margin-top: 12px"
+              >
+                Follow Instagram →
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-item reveal reveal-delay-2">
+            <div class="contact-icon">
+              <img
+                src="https://cdn.simpleicons.org/googlemaps/7B0000"
+                width="22"
+                height="22"
+              />
+            </div>
+            <div class="contact-item-text">
+              <strong>Lokasi</strong>
+              <span>Sawangan, Depok<br />— Delivery & Pickup available</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-map-box reveal reveal-delay-2">
+          <h3>Detail Lokasi</h3>
+          <!-- <p>
+            Kami buka setiap hari untuk menerima pesanan dan pickup di lokasi.
+          </p> -->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53346.06028386239!2d106.765094640055!3d-6.397912248079675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ebfa32f741b9%3A0x40e44007d9f58418!2sD&#39;Mall%20Depok!5e0!3m2!1sid!2sid!4v1775450282001!5m2!1sid!2sid"
+            width="100%"
+            height="220"
+            style="
+              border: 0;
+              border-radius: var(--radius-md);
+              display: block;
+              margin-bottom: 20px;
+            "
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+          <!-- <div class="hours-list">
+            <div class="hours-row">
+              <strong>Senin – Jumat</strong><span>08.00 – 20.00</span>
+            </div>
+            <div class="hours-row">
+              <strong>Sabtu</strong><span>08.00 – 22.00</span>
+            </div>
+            <div class="hours-row">
+              <strong>Minggu</strong><span>10.00 – 18.00</span>
+            </div>
+            <div class="hours-row">
+              <strong>Hari Libur</strong><span>Tergantung kondisi</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Painèe <span>Bakehouse</span></span>
+          <p class="footer-tagline">
+            Homemade Bakehouse — dibuat segar setiap hari dengan bahan pilihan
+            terbaik, dari dapur kami ke meja makanmu.
+          </p>
+          <div class="social-links">
+            <a
+              href="https://instagram.com/painee.cheesecake"
+              target="_blank"
+              class="social-link"
+            >
+              <img
+                src="https://cdn.simpleicons.org/instagram/FFF5E1"
+                width="18"
+                height="18"
+              />
+            </a>
+
+            <a href="" target="_blank" class="social-link">
+              <img
+                src="https://cdn.simpleicons.org/tiktok/FFF5E1"
+                width="18"
+                height="18"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Menu</h4>
+          <ul class="footer-links">
+            <li><a href="#menu">Cake</a></li>
+            <li><a href="#menu">Pastry</a></li>
+            <li><a href="#contact">Custom Order</a></li>
+            <li><a href="#contact">Gift Box</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Info</h4>
+          <ul class="footer-links">
+            <li><a href="#about">Tentang Kami</a></li>
+            <li><a href="#contact">Cara Order</a></li>
+            <li><a href="#contact">Area Pengiriman</a></li>
+            <li><a href="#contact">Hubungi Kami</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Painèe Bakehouse. All rights reserved.</p>
+        <p>
+          Made with 🤍 in Jakarta ·
+          <a href="https://wa.me/6281234567890">Order Now</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+      /* --- Navbar scroll --- */
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 40);
+      });
+
+      /* --- Hamburger --- */
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        navLinks.classList.toggle("open");
+      });
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          navLinks.classList.remove("open");
+        });
+      });
+
+      /* --- Filter tabs --- */
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+          document.querySelectorAll(".product-card").forEach((card) => {
+            const match = filter === "all" || card.dataset.category === filter;
+            card.style.display = match ? "" : "none";
+            if (match) {
+              card.style.animation = "none";
+              card.offsetHeight; // reflow
+              card.style.animation = "";
+            }
+          });
+        });
+      });
+
+      /* --- Scroll reveal --- */
+      const revealEls = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("revealed");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealEls.forEach((el) => observer.observe(el));
+
+      /* --- Toast helper --- */
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+      }
+
+      /* --- Order product --- */
+      function orderProduct(btn) {
+        const product = btn.dataset.product;
+        const waMsg = encodeURIComponent(
+          `Halo Painèe Bakehouse! Saya mau order *${product}*. Bisa minta info stok dan harga? 😊`
+        );
+        showToast(`Mengarahkan ke WhatsApp untuk "${product}"...`);
+        setTimeout(() => {
+          window.open(`https://wa.me/6281234567890?text=${waMsg}`, "_blank");
+        }, 800);
+      }
+
+      /* --- Active nav link on scroll --- */
+      const sections = document.querySelectorAll("section[id]");
+      window.addEventListener("scroll", () => {
+        let cur = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+        });
+        document.querySelectorAll(".nav-links a").forEach((a) => {
+          a.style.color =
+            a.getAttribute("href") === `#${cur}` ? "var(--maroon)" : "";
+        });
+      });
+    </script>
+  </body>
+</html>
