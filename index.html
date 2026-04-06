@@ -650,17 +650,20 @@
         line-height: 1;
       }
       .card-order-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
         background: var(--maroon);
         color: var(--cream);
         border: none;
         cursor: pointer;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        padding: 9px 20px;
+        border-radius: 50px;
+        font-family: "Jost", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
         transition: all var(--transition);
       }
       .card-order-btn:hover {
@@ -1310,7 +1313,7 @@
                 data-product="Tiramisu Cake"
                 onclick="orderProduct(this)"
               >
-                ↗
+                Order Now
               </button>
             </div>
           </div>
@@ -1342,7 +1345,7 @@
                 data-product="Curry Pup"
                 onclick="orderProduct(this)"
               >
-                ↗
+                Order Now
               </button>
             </div>
           </div>
@@ -1439,10 +1442,12 @@
             </div>
             <div class="contact-item-text">
               <strong>WhatsApp Order</strong>
-              <span
+              <!-- <span
                 >Dini : +62 813 1423 9100<br />
                 Nisa : +62 821 1299 0233</span
-              >
+              > -->
+              <a href="">Dini : +62 813 1423 9100</a><br />
+              <a href="">Nisa : +62 821 1299 0233</a>
             </div>
           </div>
 
@@ -1456,18 +1461,10 @@
             </div>
             <div class="contact-item-text">
               <strong>Instagram</strong>
-              <span
-                >@painee.bakehouse<br />Lihat galeri dan promo terbaru
-                kami</span
-              >
               <a
                 href="https://www.instagram.com/painee.bakehouse?igsh=aXVjMHkwanYydmZ4"
-                target="_blank"
-                class="contact-link-btn"
-                style="margin-top: 12px"
+                >@painee.bakehouse</a
               >
-                Follow Instagram →
-              </a>
             </div>
           </div>
 
